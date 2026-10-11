@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campus.toutiao.dao.FollowMapper">
+
+    <insert id="insert">
+        INSERT INTO user_follow (user_id, followed_id) VALUES (#{userId}, #{followedId})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM user_follow WHERE user_id = #{userId} AND followed_id = #{followedId}
+    </delete>
+
+    <select id="countByUserId" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM user_follow WHERE user_id = #{userId}
+    </select>
+
+    <select id="countByFollowedId" parameterType="int" resultType="int">
+        SELECT COUNT(*) FROM user_follow WHERE followed_id = #{followedId}
+    </select>
+
+    <select id="exists" resultType="boolean">
+        SELECT COUNT(*) > 0 FROM user_follow WHERE user_id = #{userId} AND followed_id = #{followedId}
+    </select>
+
+</mapper>

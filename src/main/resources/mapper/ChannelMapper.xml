@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campus.toutiao.dao.ChannelMapper">
+
+    <resultMap id="channelMap" type="com.campus.toutiao.entity.Channel">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="sort" column="sort"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="channelMap">
+        SELECT * FROM channel ORDER BY sort ASC
+    </select>
+
+</mapper>

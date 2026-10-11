@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.campus.toutiao.dao.ArticleMapper">
+
+    <resultMap id="articleMap" type="com.campus.toutiao.entity.Article">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="coverImage" column="cover_image"/>
+        <result property="userId" column="user_id"/>
+        <result property="channelId" column="channel_id"/>
+        <result property="viewCount" column="view_count"/>
+        <result property="likeCount" column="like_count"/>
+        <result property="commentCount" column="comment_count"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="authorName" column="author_name"/>
+        <result property="authorAvatar" column="author_avatar"/>
+        <result property="channelName" column="channel_name"/>
+    </resultMap>
+
+    <select id="findList" resultMap="articleMap">
+        SELECT a.*, u.nickname as author_name, u.avatar as author_avatar, c.name as channel_name
+        FROM article a
+        LEFT JOIN user u ON a.user_id = u.id
+        LEFT JOIN channel c ON a.channel_id = c.id
+        WHERE a.status = 1
+        <if test="channelId != null">
+            AND a.channel_id = #{channelId}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (a.title LIKE CONCAT('%', #{keyword}, '%') OR a.content LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        ORDER BY a.create_time DESC
+        LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countList" resultType="int">
+        SELECT COUNT(*) FROM article a
+        WHERE a.status = 1
+        <if test="channelId != null">
+            AND a.channel_id = #{channelId}
+        </if>
+        <if test="keyword != null and keyword != ''">
+            AND (a.title LIKE CONCAT('%', #{keyword}, '%') OR a.content LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="articleMap">
+        SELECT a.*, u.nickname as author_name, u.avatar as author_avatar, c.name as channel_name
+        FROM article a
+        LEFT JOIN user u ON a.user_id = u.id
+        LEFT JOIN channel c ON a.channel_id = c.id
+        WHERE a.id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.campus.toutiao.entity.Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO article (title, content, cover_image, user_id, channel_id, status)
+        VALUES (#{title}, #{content}, #{coverImage}, #{userId}, #{channelId}, #{status})
+    </insert>
+
+    <update id="update" parameterType="com.campus.toutiao.entity.Article">
+        UPDATE article
+        <set>
+            <if test="title != null">title = #{title},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="coverImage != null">cover_image = #{coverImage},</if>
+            <if test="channelId != null">channel_id = #{channelId},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM article WHERE id = #{id}
+    </delete>
+
+    <update id="updateViewCount" parameterType="int">
+        UPDATE article SET view_count = view_count + 1 WHERE id = #{id}
+    </update>
+
+    <update id="updateLikeCount">
+        UPDATE article SET like_count = like_count + #{count} WHERE id = #{id}
+    </update>
+
+    <select id="findByUserId" parameterType="int" resultMap="articleMap">
+        SELECT a.*, u.nickname as author_name, u.avatar as author_avatar, c.name as channel_name
+        FROM article a
+        LEFT JOIN user u ON a.user_id = u.id
+        LEFT JOIN channel c ON a.channel_id = c.id
+        WHERE a.user_id = #{userId} AND a.status = 1
+        ORDER BY a.create_time DESC
+    </select>
+
+</mapper>
