@@ -35,10 +35,10 @@
     <c:forEach var="article" items="${articles}">
         <div class="article-card">
             <div class="article-title">
-                <a href="/article/${article.id}">${article.title}</a>
+                <a href="/article/${article.id}"><c:out value="${article.title}"/></a>
             </div>
             <div class="article-meta">
-                <span>${article.channelName}</span>
+                <span><c:out value="${article.channelName}"/></span>
                 <span>👁 ${article.viewCount}</span>
                 <span>❤️ ${article.likeCount}</span>
                 <span>💬 ${article.commentCount}</span>

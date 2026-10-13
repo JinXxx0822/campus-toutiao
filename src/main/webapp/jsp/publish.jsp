@@ -19,7 +19,7 @@
     <div class="container">
         <a class="navbar-brand fw-bold" href="/">校园头条</a>
         <div class="ms-auto">
-            <span class="navbar-text text-white">${sessionScope.loginUser.nickname}</span>
+            <span class="navbar-text text-white"><c:out value="${sessionScope.loginUser.nickname}"/></span>
         </div>
     </div>
 </nav>

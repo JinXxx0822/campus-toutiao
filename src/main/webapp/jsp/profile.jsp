@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -29,9 +30,9 @@
     <div class="row justify-content-center">
         <div class="col-md-6">
             <div class="profile-card">
-                <div class="profile-avatar">${fn:substring(sessionScope.loginUser.nickname, 0, 1)}</div>
-                <h4>${sessionScope.loginUser.nickname}</h4>
-                <p class="text-muted">@${sessionScope.loginUser.username}</p>
+                <div class="profile-avatar"><c:out value="${fn:substring(sessionScope.loginUser.nickname, 0, 1)}"/></div>
+                <h4><c:out value="${sessionScope.loginUser.nickname}"/></h4>
+                <p class="text-muted">@<c:out value="${sessionScope.loginUser.username}"/></p>
 
                 <div class="row mt-4">
                     <div class="col-4">
@@ -55,10 +56,10 @@
                 <hr class="my-4">
 
                 <div class="text-start">
-                    <p><strong>学校：</strong>${sessionScope.loginUser.school != null ? sessionScope.loginUser.school : '未填写'}</p>
-                    <p><strong>学院：</strong>${sessionScope.loginUser.college != null ? sessionScope.loginUser.college : '未填写'}</p>
-                    <p><strong>个性签名：</strong>${sessionScope.loginUser.signature}</p>
-                    <p><strong>注册时间：</strong>${sessionScope.loginUser.createTime}</p>
+                    <p><strong>学校：</strong><c:out value="${sessionScope.loginUser.school != null ? sessionScope.loginUser.school : '未填写'}"/></p>
+                    <p><strong>学院：</strong><c:out value="${sessionScope.loginUser.college != null ? sessionScope.loginUser.college : '未填写'}"/></p>
+                    <p><strong>个性签名：</strong><c:out value="${sessionScope.loginUser.signature}"/></p>
+                    <p><strong>注册时间：</strong><c:out value="${sessionScope.loginUser.createTime}"/></p>
                 </div>
 
                 <div class="mt-4">

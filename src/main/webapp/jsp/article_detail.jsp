@@ -1,11 +1,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${article.title} - 校园头条</title>
+    <title><c:out value="${article.title}"/> - 校园头条</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { background-color: #f5f6fa; }
@@ -43,14 +44,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="article-container">
-                <h1 class="article-title">${article.title}</h1>
+                <h1 class="article-title"><c:out value="${article.title}"/></h1>
                 <div class="article-info">
-                    <span>${article.authorName}</span> ·
-                    <span>${article.channelName}</span> ·
-                    <span>${article.createTime}</span> ·
+                    <span><c:out value="${article.authorName}"/></span> ·
+                    <span><c:out value="${article.channelName}"/></span> ·
+                    <span><c:out value="${article.createTime}"/></span> ·
                     <span>阅读 ${article.viewCount}</span>
                 </div>
-                <div class="article-content">${article.content}</div>
+                <div class="article-content"><c:out value="${article.content}"/></div>
 
                 <div class="action-bar">
                     <button class="btn btn-outline-danger btn-action" id="likeBtn" onclick="toggleLike()">
@@ -80,11 +81,11 @@
                     <c:forEach var="comment" items="${comments}">
                         <div class="comment-item">
                             <div class="d-flex">
-                                <span class="comment-avatar">${fn:substring(comment.userName, 0, 1)}</span>
+                                <span class="comment-avatar"><c:out value="${fn:substring(comment.userName, 0, 1)}"/></span>
                                 <div class="ms-3">
-                                    <div class="fw-bold">${comment.userName}</div>
-                                    <div class="text-muted" style="font-size:12px;">${comment.createTime}</div>
-                                    <div class="mt-1">${comment.content}</div>
+                                    <div class="fw-bold"><c:out value="${comment.userName}"/></div>
+                                    <div class="text-muted" style="font-size:12px;"><c:out value="${comment.createTime}"/></div>
+                                    <div class="mt-1"><c:out value="${comment.content}"/></div>
                                 </div>
                             </div>
                         </div>

@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -36,7 +37,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <form class="d-flex mx-auto" action="/" method="get" style="width: 400px;">
-                <input class="form-control me-2" type="search" name="keyword" placeholder="搜索文章..." value="${keyword}">
+                <input class="form-control me-2" type="search" name="keyword" placeholder="搜索文章..." value="${fn:escapeXml(keyword)}">
                 <button class="btn btn-outline-light" type="submit">搜索</button>
             </form>
             <ul class="navbar-nav ms-auto">
@@ -78,12 +79,12 @@
             <c:forEach var="article" items="${pageData.list}">
                 <div class="article-card">
                     <div class="article-title">
-                        <a href="/article/${article.id}">${article.title}</a>
+                        <a href="/article/${article.id}"><c:out value="${article.title}"/></a>
                     </div>
                     <div class="article-meta">
                         <span class="d-inline-flex align-items-center">
-                            <span class="avatar me-2" style="width:24px;height:24px;font-size:12px;">${fn:substring(article.authorName, 0, 1)}</span>
-                            ${article.authorName}
+                            <span class="avatar me-2" style="width:24px;height:24px;font-size:12px;"><c:out value="${fn:substring(article.authorName, 0, 1)}"/></span>
+                            <c:out value="${article.authorName}"/>
                         </span>
                         <span>${article.channelName}</span>
                         <span>👁 ${article.viewCount}</span>
