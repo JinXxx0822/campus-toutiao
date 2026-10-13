@@ -49,4 +49,31 @@ public class UserServiceImpl implements UserService {
     public boolean isUsernameExists(String username) {
         return userMapper.findByUsername(username) != null;
     }
+
+    /**
+     * 更新个人资料。UserMapper.update 仅更新非 null 字段，因此密码等无关字段不受影响。
+     */
+    @Override
+    public boolean updateProfile(User user) {
+        return userMapper.update(user) > 0;
+    }
+
+    /**
+     * 修改密码：先用库中旧密码（加盐哈希）校验原密码，校验通过后再写入新密码的哈希。
+     * @return true 修改成功；false 原密码错误或用户不存在
+     */
+    @Override
+    public boolean changePassword(Integer id, String oldPassword, String newPassword) {
+        User db = userMapper.findById(id);
+        if (db == null) {
+            return false;
+        }
+        if (!PasswordUtil.hash(oldPassword, db.getUsername()).equals(db.getPassword())) {
+            return false;
+        }
+        User update = new User();
+        update.setId(id);
+        update.setPassword(PasswordUtil.hash(newPassword, db.getUsername()));
+        return userMapper.update(update) > 0;
+    }
 }

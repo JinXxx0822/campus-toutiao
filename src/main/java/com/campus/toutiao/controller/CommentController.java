@@ -31,6 +31,13 @@ public class CommentController {
         if (loginUser == null) {
             return Result.error(401, "请先登录");
         }
+        if (content == null || content.trim().isEmpty()) {
+            return Result.error("评论内容不能为空");
+        }
+        content = content.trim();
+        if (content.length() > 500) {
+            return Result.error("评论内容过长（最多 500 字）");
+        }
         Comment comment = new Comment();
         comment.setArticleId(articleId);
         comment.setContent(content);

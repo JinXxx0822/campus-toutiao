@@ -63,18 +63,22 @@
 
             <!-- 评论区 -->
             <div class="article-container mt-4">
-                <h5>评论</h5>
+                <h5>评论（${article.commentCount}）</h5>
 
                 <c:if test="${sessionScope.loginUser != null}">
                     <div class="mb-4">
-                        <textarea class="form-control" id="commentContent" rows="3" placeholder="写下你的评论..."></textarea>
-                        <button class="btn btn-primary mt-2" onclick="addComment()">发表评论</button>
+                        <textarea class="form-control" id="commentContent" rows="3" placeholder="写下你的评论..." maxlength="500"></textarea>
+                        <button class="btn btn-primary mt-2" id="commentBtn" onclick="addComment()">发表评论</button>
                     </div>
                 </c:if>
                 <c:if test="${sessionScope.loginUser == null}">
                     <div class="text-center py-3 text-muted">
                         <a href="/user/login">登录</a>后参与评论
                     </div>
+                </c:if>
+
+                <c:if test="${empty comments}">
+                    <div class="text-center text-muted py-3">暂无评论，快来抢沙发～</div>
                 </c:if>
 
                 <div id="commentList">
