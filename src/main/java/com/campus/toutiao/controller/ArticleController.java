@@ -29,6 +29,12 @@ public class ArticleController {
                         @RequestParam(required = false) String keyword,
                         @RequestParam(required = false, defaultValue = "1") Integer page,
                         Model model) {
+        // 页码边界限制：最小 1，最大 10000，避免非法/超大分页
+        if (page == null || page < 1) {
+            page = 1;
+        } else if (page > 10000) {
+            page = 10000;
+        }
         List<Channel> channels = channelMapper.findAll();
         Map<String, Object> pageData = articleService.getArticleList(channelId, keyword, page, 10);
 
@@ -68,6 +74,23 @@ public class ArticleController {
         if (loginUser == null) {
             return Result.error(401, "请先登录");
         }
+        // 后端参数校验：标题、内容、频道
+        String title = article.getTitle() == null ? "" : article.getTitle().trim();
+        String content = article.getContent() == null ? "" : article.getContent().trim();
+        if (title.isEmpty()) {
+            return Result.error("标题不能为空");
+        }
+        if (title.length() > 200) {
+            return Result.error("标题长度不能超过 200 字");
+        }
+        if (content.isEmpty()) {
+            return Result.error("正文内容不能为空");
+        }
+        if (article.getChannelId() == null) {
+            return Result.error("请选择频道");
+        }
+        article.setTitle(title);
+        article.setContent(content);
         article.setUserId(loginUser.getId());
         articleService.publishArticle(article);
         return Result.success("发布成功", article.getId());

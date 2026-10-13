@@ -99,10 +99,12 @@ INSERT INTO `channel` (`name`, `description`, `sort`) VALUES
 ('校园八卦', '校园趣事、闲聊灌水', 5),
 ('二手市场', '二手物品交易、转让', 6);
 
+-- 注意：密码采用“加盐 SHA-256”（盐=用户名，原始密码均为 123456），避免明文存储。
+-- 与后端 PasswordUtil.hash(password, username) 保持一致。
 INSERT INTO `user` (`username`, `password`, `nickname`, `school`, `college`, `signature`) VALUES
-('ljw', '123456', 'ljw', 'XX大学', '计算机学院', '这个人很懒，什么都没写~'),
-('zhangsan', '123456', '张三同学', 'XX大学', '计算机学院', '热爱编程的大二学生'),
-('lisi', '123456', '李四学姐', 'XX大学', '外国语学院', '考研上岸学姐');
+('ljw', '02ed4850a8030d8dfb5e98168bbfffc79d2c3f3c63dc3acdca52db5ec7df6b1b', 'ljw', 'XX大学', '计算机学院', '这个人很懒，什么都没写~'),
+('zhangsan', '80509adc5b43c7576036d2a6ee8f966d1f5c5d628408af962066b8348ff40c3e', '张三同学', 'XX大学', '计算机学院', '热爱编程的大二学生'),
+('lisi', '667340e8e2fdc8cbff3c773225af575ab03174be345c14eaef625e85e73779b8', '李四学姐', 'XX大学', '外国语学院', '考研上岸学姐');
 
 INSERT INTO `article` (`title`, `content`, `user_id`, `channel_id`, `view_count`, `like_count`, `comment_count`) VALUES
 ('关于2026年国庆节放假安排的通知', '根据国务院办公厅通知精神，结合学校实际情况，现将2026年国庆节放假安排通知如下：10月1日至7日放假调休，共7天。10月8日（星期一）正常上课。请各单位做好假期值班和安全保卫工作。', 1, 1, 1280, 56, 12),
